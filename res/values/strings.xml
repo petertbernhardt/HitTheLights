@@ -4,7 +4,9 @@
     <string name="app_name">HitTheLights</string>
     <string name="action_settings">Settings</string>
     <string name="title">Hit The Lights</string>
-    <string name="master">Shut. Down. Everything.</string>
-    <string name="sound">No sound!</string>
+    <string name="masterOff">Shut. Down. Everything.</string>
+    <string name="masterOn">Turn. On. Everything.</string>
+    <string name="soundOff">No sound!</string>
+    <string name="soundOn">Yes sound!</string>
 
 </resources>
