@@ -9,12 +9,12 @@
     tools:context=".MainPage" >
     
     <Button
-     	android:id="@+id/noise"
+     	android:id="@+id/sound"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/master"
         android:layout_marginTop="63dp"
-        android:text="@string/noise" />
+        android:text="@string/sound" />
 
     <TextView
         android:id="@+id/title"
@@ -30,7 +30,7 @@
         android:id="@+id/master"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/noise"
+        android:layout_alignLeft="@+id/sound"
         android:layout_centerVertical="true"
         android:text="@string/master" />
 
