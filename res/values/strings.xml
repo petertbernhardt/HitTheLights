@@ -3,6 +3,8 @@
 
     <string name="app_name">HitTheLights</string>
     <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="title">Hit The Lights</string>
+    <string name="master">Shut. Down. Everything.</string>
+    <string name="noise">No noise</string>
 
 </resources>
