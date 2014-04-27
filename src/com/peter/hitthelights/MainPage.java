@@ -75,9 +75,11 @@ public class MainPage extends Activity implements OnCheckedChangeListener {
 						}
 					} else if (setting.equals("bluetooth")) {
 						// get previous setting
-						
+						boolean btState = Boolean.valueOf(settings.get(setting));
 						// if true, turn it back on
-						// else, do nothing
+						if (btState) {
+							turnOnBluetooth();
+						}
 					} else if (setting.equals("sound")) {
 						// get previous setting
 						// if not silent, revert it
@@ -99,6 +101,12 @@ public class MainPage extends Activity implements OnCheckedChangeListener {
 				
 			}
 		}
+	}
+
+	// Turns on bluetooth
+	private void turnOnBluetooth() {
+		BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+		mBluetoothAdapter.enable();
 	}
 
 	// Sets the screen's brightness to the given value
