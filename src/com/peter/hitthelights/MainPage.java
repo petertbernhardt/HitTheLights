@@ -82,8 +82,11 @@ public class MainPage extends Activity implements OnCheckedChangeListener {
 						}
 					} else if (setting.equals("sound")) {
 						// get previous setting
+						int soundLevel = Integer.valueOf(settings.get(setting));
 						// if not silent, revert it
-						// else, do nothing
+						if (soundLevel != 0) {
+							setSound(soundLevel);
+						}
 					} else if (setting.equals("wifi")) {
 						// get previous setting
 						// if on, turn it back on
@@ -101,6 +104,12 @@ public class MainPage extends Activity implements OnCheckedChangeListener {
 				
 			}
 		}
+	}
+
+	// Set the sound level to the previous value
+	private void setSound(int soundLevel) {
+		AudioManager aManager=(AudioManager)getSystemService(AUDIO_SERVICE);
+		aManager.setRingerMode(soundLevel);
 	}
 
 	// Turns on bluetooth
