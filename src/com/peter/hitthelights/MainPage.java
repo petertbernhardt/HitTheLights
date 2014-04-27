@@ -50,47 +50,32 @@ public class MainPage extends Activity implements OnCheckedChangeListener {
 	public void onCheckedChanged(CompoundButton button, boolean state) {
 		if (button.equals(master)) {
 			if (state) {
-				// Before turning off settings, remember what the user had turned on and off,
-				// so when turning stuff back on, the app doesn't turn on things that
-				// weren't originally on. EX: setting bluetooth on when it was originally off.
-				// Wifi
 				turnOffWifi();
-				// Sound
 				turnOffSound();
-				// Bluetooth
 				turnOffBluetooth();
-				// Set brightness
 				turnDownBrightness();
 			} else {
 				// go through the settings map and turn everything that was on back on
 				for (String setting : settings.keySet()) {
 					if (setting.equals("brightness")) {
-						// get previous setting
 						int brightness = Integer.valueOf(settings.get(setting));
-						// reset brightness
 						try {
 							setBrightness(brightness);
 						} catch (SettingNotFoundException e) {
 							e.printStackTrace();
 						}
 					} else if (setting.equals("bluetooth")) {
-						// get previous setting
 						boolean btState = Boolean.valueOf(settings.get(setting));
-						// if true, turn it back on
 						if (btState) {
 							turnOnBluetooth();
 						}
 					} else if (setting.equals("sound")) {
-						// get previous setting
 						int soundLevel = Integer.valueOf(settings.get(setting));
-						// if not silent, revert it
 						if (soundLevel != 0) {
 							setSound(soundLevel);
 						}
 					} else if (setting.equals("wifi")) {
-						// get previous setting
 						String wifiState = settings.get(setting);
-						// if on, turn it back on
 						if (wifiState.equals("on")) {
 							turnOnWifi();
 						}
@@ -99,12 +84,12 @@ public class MainPage extends Activity implements OnCheckedChangeListener {
 			}
 		} else if (button.equals(sound)) {
 			if (state) {
-				// Remember previous setting so when resetting the volume, go back to the previous
-				// level
-				// TURN OFF SOUND
+				turnOffSound();
 			} else {
-				// turn the sound back on
-				
+				int soundLevel = Integer.valueOf(settings.get("sound"));
+				if (soundLevel != 0) {
+					setSound(soundLevel);
+				}
 			}
 		}
 	}
