@@ -2,15 +2,13 @@ package com.peter.hitthelights;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import android.media.AudioManager;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.view.Menu;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Toast;
@@ -57,7 +55,7 @@ public class MainPage extends Activity implements OnCheckedChangeListener {
 				*	WIFI - done
 				*	GPS - ?
 				*	SOUND - done
-				*	BLUETOOTH
+				*	BLUETOOTH - done
 				*  SET BRIGHTNESS TO 0
 				*/
 				// Hold current settings in Map<String, Boolean>
@@ -73,6 +71,10 @@ public class MainPage extends Activity implements OnCheckedChangeListener {
 				AudioManager aManager=(AudioManager)getSystemService(AUDIO_SERVICE);
 				settings.put("sound", Integer.valueOf(aManager.getRingerMode()).toString());
 				aManager.setRingerMode(aManager.RINGER_MODE_SILENT);
+				// Bluetooth
+				BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+				settings.put("bluetooth", mBluetoothAdapter.isEnabled() + "");
+				mBluetoothAdapter.disable();
 			} else {
 				// go through the settings map and turn everything that was on back on
 				Toast.makeText(getApplicationContext(), "blahhhhh", Toast.LENGTH_LONG).show();
