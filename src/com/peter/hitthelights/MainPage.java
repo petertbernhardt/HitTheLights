@@ -2,7 +2,6 @@ package com.peter.hitthelights;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import android.media.AudioManager;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -13,9 +12,8 @@ import android.content.Context;
 import android.view.Menu;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.Toast;
 import android.widget.ToggleButton;
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
 public class MainPage extends Activity implements OnCheckedChangeListener {
 
 	// Fields
