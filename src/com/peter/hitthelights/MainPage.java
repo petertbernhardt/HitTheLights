@@ -5,6 +5,7 @@ import java.util.Map;
 import android.media.AudioManager;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.provider.Settings.SettingNotFoundException;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
@@ -44,6 +45,7 @@ public class MainPage extends Activity implements OnCheckedChangeListener {
 		sound.setOnCheckedChangeListener(this);
 	}
 
+	@SuppressWarnings("static-access")
 	@Override
 	public void onCheckedChanged(CompoundButton button, boolean state) {
 		if (button.equals(master)) {
@@ -75,6 +77,15 @@ public class MainPage extends Activity implements OnCheckedChangeListener {
 				BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 				settings.put("bluetooth", mBluetoothAdapter.isEnabled() + "");
 				mBluetoothAdapter.disable();
+				// Set brightness
+				int brightness = 0;
+				try {
+					brightness = android.provider.Settings.System.getInt(getContentResolver(), android.provider.Settings.System.SCREEN_BRIGHTNESS);
+				} catch (SettingNotFoundException e) {
+					e.printStackTrace();
+				}
+				settings.put("brightness", Integer.valueOf(brightness).toString());
+				android.provider.Settings.System.putInt(getContentResolver(), android.provider.Settings.System.SCREEN_BRIGHTNESS, 0);
 			} else {
 				// go through the settings map and turn everything that was on back on
 				Toast.makeText(getApplicationContext(), "blahhhhh", Toast.LENGTH_LONG).show();
