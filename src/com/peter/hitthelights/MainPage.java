@@ -89,8 +89,11 @@ public class MainPage extends Activity implements OnCheckedChangeListener {
 						}
 					} else if (setting.equals("wifi")) {
 						// get previous setting
+						String wifiState = settings.get(setting);
 						// if on, turn it back on
-						// else, do nothing
+						if (wifiState.equals("on")) {
+							turnOnWifi();
+						}
 					}
 				}
 			}
@@ -104,6 +107,12 @@ public class MainPage extends Activity implements OnCheckedChangeListener {
 				
 			}
 		}
+	}
+
+	// Turns on WiFi
+	private void turnOnWifi() {
+		WifiManager wifiManager = (WifiManager) this.getSystemService(Context.WIFI_SERVICE);
+		wifiManager.setWifiEnabled(true);
 	}
 
 	// Set the sound level to the previous value
