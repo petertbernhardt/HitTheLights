@@ -2,6 +2,7 @@ package com.peter.hitthelights;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import android.media.AudioManager;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -45,7 +46,6 @@ public class MainPage extends Activity implements OnCheckedChangeListener {
 		sound.setOnCheckedChangeListener(this);
 	}
 
-	@SuppressWarnings("static-access")
 	@Override
 	public void onCheckedChanged(CompoundButton button, boolean state) {
 		if (button.equals(master)) {
@@ -53,39 +53,14 @@ public class MainPage extends Activity implements OnCheckedChangeListener {
 				// Before turning off settings, remember what the user had turned on and off,
 				// so when turning stuff back on, the app doesn't turn on things that
 				// weren't originally on. EX: setting bluetooth on when it was originally off.
-				/* TURN OFF:
-				*	WIFI - done
-				*	GPS - ?
-				*	SOUND - done
-				*	BLUETOOTH - done
-				*  SET BRIGHTNESS TO 0
-				*/
-				// Hold current settings in Map<String, Boolean>
 				// Wifi
-				WifiManager wifiManager = (WifiManager) this.getSystemService(Context.WIFI_SERVICE);
-				if (wifiManager.isWifiEnabled()) {
-					// put in settings
-					settings.put("wifi", "on");
-					// turn off wifi
-					wifiManager.setWifiEnabled(false);
-				}
+				turnOffWifi();
 				// Sound
-				AudioManager aManager=(AudioManager)getSystemService(AUDIO_SERVICE);
-				settings.put("sound", Integer.valueOf(aManager.getRingerMode()).toString());
-				aManager.setRingerMode(aManager.RINGER_MODE_SILENT);
+				turnOffSound();
 				// Bluetooth
-				BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-				settings.put("bluetooth", mBluetoothAdapter.isEnabled() + "");
-				mBluetoothAdapter.disable();
+				turnOffBluetooth();
 				// Set brightness
-				int brightness = 0;
-				try {
-					brightness = android.provider.Settings.System.getInt(getContentResolver(), android.provider.Settings.System.SCREEN_BRIGHTNESS);
-				} catch (SettingNotFoundException e) {
-					e.printStackTrace();
-				}
-				settings.put("brightness", Integer.valueOf(brightness).toString());
-				android.provider.Settings.System.putInt(getContentResolver(), android.provider.Settings.System.SCREEN_BRIGHTNESS, 0);
+				turnDownBrightness();
 			} else {
 				// go through the settings map and turn everything that was on back on
 				Toast.makeText(getApplicationContext(), "blahhhhh", Toast.LENGTH_LONG).show();
@@ -102,6 +77,54 @@ public class MainPage extends Activity implements OnCheckedChangeListener {
 				// turn the sound back on
 				
 			}
+		}
+	}
+
+	// Private helper method for onCheckedChanged
+	// Turns down the brightness and saves the previous setting to the settings map
+	private void turnDownBrightness() {
+		int brightness = 0;
+		try {
+			brightness = android.provider.Settings.System.getInt(getContentResolver(), android.provider.Settings.System.SCREEN_BRIGHTNESS);
+		} catch (SettingNotFoundException e) {
+			e.printStackTrace();
+		}
+		// Hold current settings in Map<String, Boolean>
+		settings.put("brightness", Integer.valueOf(brightness).toString());
+		android.provider.Settings.System.putInt(getContentResolver(), android.provider.Settings.System.SCREEN_BRIGHTNESS, 0);
+	}
+
+	// Private helper method for onCheckedChanged
+	// Turns off bluetooth and saves the previous setting to the settings map
+	private void turnOffBluetooth() {
+		BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+		// Hold current settings in Map<String, Boolean>
+		settings.put("bluetooth", mBluetoothAdapter.isEnabled() + "");
+		mBluetoothAdapter.disable();
+	}
+
+	// Private helper method for onCheckedChanged
+	// Turns off the sound and saves the previous setting to the settings map
+	// Only saves the setting if it was already silent
+	@SuppressWarnings("static-access")
+	private void turnOffSound() {
+		AudioManager aManager=(AudioManager)getSystemService(AUDIO_SERVICE);
+		// Hold current settings in Map<String, Boolean>
+		settings.put("sound", Integer.valueOf(aManager.getRingerMode()).toString());
+		if (aManager.getRingerMode() != 0) {
+			aManager.setRingerMode(aManager.RINGER_MODE_SILENT);
+		}
+	}
+
+	// Private helper method for onCheckedChanged
+	// Turns off the wifi and saves the previous setting to the settings map
+	private void turnOffWifi() {
+		WifiManager wifiManager = (WifiManager) this.getSystemService(Context.WIFI_SERVICE);
+		if (wifiManager.isWifiEnabled()) {
+			// Hold current settings in Map<String, Boolean>
+			settings.put("wifi", "on");
+			// turn off wifi
+			wifiManager.setWifiEnabled(false);
 		}
 	}
 
